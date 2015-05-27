@@ -1,4 +1,4 @@
-app.controller('MainController', function ($scope, Card, Score) {
+app.controller('MainController', function ($rootScope, $scope, Card, Score) {
 	// $scope.flashCards = whateverName;
   $scope.categories = [
    'MongoDB',
@@ -7,7 +7,13 @@ app.controller('MainController', function ($scope, Card, Score) {
    'Node'
  ];
 
+  $rootScope.addButton = false;
+  // $rootScope.updateButton = true;
 
+  $scope.add = function(){
+    if (!$rootScope.addButton) $rootScope.addButton = true
+    else $rootScope.addButton = false
+  }
 
   $scope.switchCategory = function(category) {
     $scope.loaderOn = true
@@ -34,10 +40,6 @@ app.controller('MainController', function ($scope, Card, Score) {
 
   $scope.reset()
 
-
-  // $scope.onMouseEnter = function ($event) {
-  //   console.log('hello', $event)
-  // }
 });
 
 

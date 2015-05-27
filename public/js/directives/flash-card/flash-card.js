@@ -1,4 +1,4 @@
-app.directive('flashCard', function() {
+app.directive('flashCard', function($rootScope, Card) {
 	return {
 		restrict: 'E',
 		templateUrl: 'js/directives/flash-card/flash-card.html',
@@ -11,9 +11,17 @@ app.directive('flashCard', function() {
 				if (!flashCard.answered) {
 					flashCard.answered = true;
 					flashCard.answeredCorrectly = answer.correct;
-				      answer.correct ? Score.correct++ : Score.incorrect++
-						}
-					}
+					answer.correct ? Score.correct++ : Score.incorrect++
+				}
+			}
+
+			scope.edit = function (card) {
+				console.log('test', card);
+				Card.toEdit.card = card;
+
+				if (!$rootScope.addButton) $rootScope.addButton = true
+    			else $rootScope.addButton = false
+			}
 		}
 	}
 })
