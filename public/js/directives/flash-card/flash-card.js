@@ -1,28 +1,35 @@
-app.directive('flashCard', function($rootScope, Card) {
-	return {
-		restrict: 'E',
-		templateUrl: 'js/directives/flash-card/flash-card.html',
-		scope: {
-			card: '='
-		},
-		link: function(scope, element, attrs) {
+app.directive('flashCard', function (ScoreFactory) {
 
-			scope.answerQuestion = function (answer, flashCard) {
-				if (!flashCard.answered) {
-					flashCard.answered = true;
-					flashCard.answeredCorrectly = answer.correct;
-					answer.correct ? Score.correct++ : Score.incorrect++
-				}
-			}
+    return {
+        restrict: 'E',
+        templateUrl: 'js/directives/flash-card/flash-card.html',
+        scope: {
+            card: '='
+        },
+        link: function (scope) {
 
-			scope.edit = function (card) {
-				console.log('test', card);
-				Card.toEdit.card = card;
+            scope.answered = false;
+            scope.answeredCorrectly = null;
 
-				if (!$rootScope.addButton) $rootScope.addButton = true
-    			else $rootScope.addButton = false
-			}
-		}
-	}
-})
+            scope.answerQuestion = function (answer) {
 
+                if (scope.answered) {
+                    return;
+                }
+
+                scope.answered = true;
+                scope.answeredCorrectly = answer.correct;
+
+                if (answer.correct) {
+                    ScoreFactory.correct++;
+                } else {
+                    ScoreFactory.incorrect++;
+                }
+
+            };
+
+        }
+
+    };
+
+});
